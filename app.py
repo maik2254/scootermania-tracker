@@ -5,6 +5,12 @@ import os
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'
 
+# Redirect root domain to www
+@app.before_request
+def force_www():
+    if request.host == "scootermaniatracking.com":
+        return redirect("https://www.scootermaniatracking.com" + request.full_path, code=301)
+
 DB_PATH = 'status.db'
 
 # Initialize database if it doesn't exist
