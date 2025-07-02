@@ -1,0 +1,47 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Panel</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 10px; text-align: center; }
+        th { background-color: #f0f0f0; }
+        input, select { padding: 5px; }
+        form.inline { display: inline; }
+    </style>
+</head>
+<body>
+    <h1>Admin Panel</h1>
+    <form method="POST">
+        <input type="text" name="order_id" placeholder="Order ID" required>
+        <input type="text" name="status" placeholder="Status" required>
+        <button type="submit">Add / Update Order</button>
+    </form>
+
+    <h2>Existing Orders</h2>
+    <table>
+        <tr>
+            <th>Order ID</th>
+            <th>Status</th>
+            <th>Update Status</th>
+        </tr>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.order_id }}</td>
+            <td>{{ order.status }}</td>
+            <td>
+                <form method="POST" class="inline">
+                    <input type="hidden" name="order_id" value="{{ order.order_id }}">
+                    <input type="text" name="status" value="{{ order.status }}">
+                    <button type="submit">Update</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <p><a href="{{ url_for('logout') }}">Logout</a></p>
+</body>
+</html>

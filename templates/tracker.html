@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Track Your Order</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; text-align: center; }
+        input[type="text"] { padding: 10px; width: 250px; }
+        button { padding: 10px 20px; }
+        #map { height: 400px; width: 100%; margin-top: 20px; }
+    </style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+    <h1>Track Your Scooter</h1>
+    <form method="POST">
+        <input type="text" name="order_id" placeholder="Enter your order ID" required>
+        <button type="submit">Track</button>
+    </form>
+
+    {% if status %}
+        <h2>Status: {{ status }}</h2>
+        <div id="map"></div>
+    {% endif %}
+
+    <script>
+        {% if status %}
+        const status = "{{ status }}".toLowerCase();
+        let coords = [23.5, -82.5];  // default to ocean
+
+        if (status.includes("miami")) {
+            coords = [25.7617, -80.1918];
+        } else if (status.includes("havana") || status.includes("aduana")) {
+            coords = [23.1346, -82.3589];  // Aduana del Puerto de La Habana
+        } else if (status.includes("ocean")) {
+            coords = [23.5, -82.5];
+        }
+
+        const map = L.map('map').setView(coords, 10);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        L.marker(coords).addTo(map).bindPopup("Current Package Location").openPopup();
+        {% endif %}
+    </script>
+</body>
+</html>
