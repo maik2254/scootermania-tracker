@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Panel</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        form.inline { display: inline; }
+    </style>
+</head>
+<body>
+    <h1>Admin Panel</h1>
+
+    <h2>Add New Tracking Code</h2>
+    <form method="POST">
+        <input type="hidden" name="create">
+        <input type="text" name="order_id" placeholder="Tracking Code" required>
+        <input type="text" name="status" placeholder="Status" required>
+        <button type="submit">Add</button>
+    </form>
+
+    <hr>
+
+    <h2>Update Existing Orders</h2>
+    <table>
+        <tr>
+            <th>Tracking Code</th>
+            <th>Status</th>
+            <th>Update</th>
+        </tr>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.order_id }}</td>
+            <td>{{ order.status }}</td>
+            <td>
+                <form method="POST" class="inline">
+                    <input type="hidden" name="update">
+                    <input type="hidden" name="order_id" value="{{ order.order_id }}">
+                    <input type="text" name="status" value="{{ order.status }}">
+                    <button type="submit">Update</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
