@@ -1,8 +1,0 @@
-services:
-  - type: web
-    name: scootermania-tracker
-    env: python
-    branch: main
-    rootDirectory: .
-    buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn app:app
