@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>ScooterMania Package Tracker</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-sA+e2CCd7NdN/d1xBnI0so3gc9MMxAaqICxF8r0zPHE=" crossorigin=""/>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -33,6 +34,10 @@
         input[type="submit"] {
             padding: 10px 20px;
         }
+        #map {
+            height: 400px;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -46,6 +51,21 @@
         {% if status %}
             <p>Status: <strong>{{ status }}</strong></p>
         {% endif %}
+        {% if location %}
+            <div id="map"></div>
+        {% endif %}
     </div>
+    {% if location %}
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-o9N1j7kCnnkA5sjGcXBR7yZ/Kv8G+3SeK2ImFD2bAxA=" crossorigin=""></script>
+    <script>
+        const lat = {{ location[0] }};
+        const lon = {{ location[1] }};
+        const map = L.map('map').setView([lat, lon], 10);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        L.marker([lat, lon]).addTo(map);
+    </script>
+    {% endif %}
 </body>
 </html>
